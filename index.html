@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quotation Editor</title>
+<style>
+/* ===== Screen ===== */
+*{box-sizing:border-box}
+body{margin:0;background:#e9ecf1;font:13px/1.35 Calibri,Carlito,Arial,sans-serif;color:#111}
+.bar{position:sticky;top:0;z-index:5;background:#1f2a44;padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.bar button,.bar .b{background:#fff;border:0;border-radius:4px;padding:7px 11px;font:600 13px Arial,sans-serif;cursor:pointer}
+.bar .add{background:#2e9e5b;color:#fff}.bar .pri{background:#f2b705}.bar .dg{color:#a11}
+#st{color:#cfd6e6;font-size:12px;margin-left:auto}
+#msgs{max-width:210mm;margin:8px auto 0;padding:0 12px}
+#msgs div{background:#fff3cd;border-left:4px solid #e0a800;padding:4px 8px;margin-bottom:3px;font-size:12px}
+.wrap{overflow-x:auto;padding:12px}
+.sheet{background:#fff;width:210mm;min-width:210mm;margin:0 auto;padding:10mm;box-shadow:0 2px 10px #0003}
+.wm{display:none}
+[contenteditable]{outline:0;white-space:pre-wrap;min-height:1em}
+[contenteditable]:hover,[contenteditable]:focus{background:#fff9d6}
+@media screen{[data-ph]:empty::before{content:attr(data-ph);color:#9aa;font-weight:400}}
+input[type=number]{-moz-appearance:textfield;appearance:textfield}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+/* ===== Banner + header blocks ===== */
+.banner{position:relative;height:76px;color:#fff;border:1px solid #222;background:#1b66b5 linear-gradient(115deg,#0e4a97,#2b95d9 60%,#1d78c4);background-size:100% 100%}
+.banner .cn{font:28px/1.15 Arial,sans-serif;padding:4px 8px 0;max-width:75%}
+.banner .qt{font:28px/1.1 Arial,sans-serif;padding-left:200px}
+.blogo{position:absolute;right:0;top:0;height:100%;max-width:170px;object-fit:contain}
+.logoPh{position:absolute;right:8px;top:14px;width:100px;height:44px;border:1px dashed #cde;color:#dde;font:600 12px Arial;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.addr{border:1px solid #222;border-top:0;text-align:center;font:700 12.5px Cambria,Georgia,serif;padding:8px;min-height:52px}
+table{border-collapse:collapse}
+.hd{width:100%;table-layout:fixed;font-family:Arial,sans-serif}
+.hd td{border:1px solid #222;border-top:0;text-align:center;padding:7px 4px;font-size:12px}
+.hd .h{font-weight:700;font-size:13px}
+.hd td>div{min-height:1.2em}
+/* ===== Item table ===== */
+.it{width:100%;table-layout:fixed;font-size:11.5px}
+.it th{background:#d9d9d9;font-weight:700;padding:6px 2px;border:1px solid #222;text-align:center;line-height:1.25;font-size:11.5px}
+.it td{border:1px solid #222;text-align:center;vertical-align:middle;padding:2px}
+.it thead{display:table-header-group}
+.it tr{break-inside:avoid;page-break-inside:avoid}
+.it .tot td{font-weight:700;padding:6px 2px}
+.imc{padding:0!important}
+.imc img{width:100%;height:150px;object-fit:contain;display:block}
+.noimg{height:150px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px}
+.n,.t{width:100%;border:1px solid #bcc;border-radius:2px;font:inherit;text-align:center;padding:1px 0;background:#fff}
+.np button,.np .fl{font:600 11px Arial;padding:2px 6px;margin:2px;border:1px solid #999;background:#f4f4f4;border-radius:3px;cursor:pointer;display:inline-block}
+.np .dl{color:#a11}
+.err{outline:2px solid #d33;background:#ffeaea}
+/* ===== Summary, terms ===== */
+.sm{margin:0 0 0 auto;width:52%;font-family:Calibri,Carlito,Arial,sans-serif;font-size:12px;break-inside:avoid}
+.sm td{border:1px solid #222;border-top:0;padding:5px 6px;text-align:center}
+.sm td:last-child{width:34%}
+.sm .n{width:56px}
+.words{border:1px solid #222;border-top:0;text-align:center;font-weight:700;padding:5px;font-size:12px;break-inside:avoid}
+.terms{margin-top:14px;break-inside:avoid-page}
+.terms h4{margin:0 0 6px;font:700 14px Arial,sans-serif}
+.sign{margin-top:12px;break-inside:avoid;font-size:13px}
+/* ===== Print ===== */
+@page{size:A4;margin:14mm 10mm 14mm;@bottom-center{content:"Page " counter(page) " of " counter(pages);font:10px Arial}@bottom-right{content:"Powered By Gomez";font:10px Arial}}
+@media print{
+ body{background:#fff;font-size:12px}
+ .bar,#msgs,.np,.logoPh{display:none!important}
+ .wrap{padding:0;overflow:visible}
+ .sheet{width:auto;min-width:0;padding:0;box-shadow:none;margin:0}
+ .n,.t{border:0!important;background:transparent!important;padding:0}
+ input:focus,select:focus{outline:0}
+ [contenteditable]:hover,[contenteditable]:focus{background:none}
+ .err{outline:0;background:none}
+ .noimg{color:transparent;height:60px}
+ .wm{display:block;position:fixed;top:42%;left:22%;transform:rotate(58deg);font:34px Georgia,serif;color:#0aa;opacity:.07;white-space:nowrap}
+ *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style><style id="stamp"></style></head><body>
+<div class="bar">
+ <button class="add" id="bAdd">+ Add New Type</button>
+ <button id="bChg">+ Add Charge</button>
+ <button class="pri" id="bPrint">Print / Save as PDF</button>
+ <button id="bSave">Save</button>
+ <button id="bExp">Export JSON</button>
+ <label class="b">Import JSON<input type="file" id="fImp" accept=".json,application/json" hidden></label>
+ <label class="b">Upload Logo<input type="file" id="fLogo" accept="image/*" hidden></label>
+ <button id="bLogoX" style="display:none">Remove Logo</button>
+ <button id="bBanX" style="display:none">Remove Banner Image</button>
+ <label class="b">Import PDF<input type="file" id="fPdf" accept="application/pdf,.pdf" hidden></label>
+ <button id="bNew" class="dg">New Quotation</button>
+ <button id="bAll" class="dg">Clear All Data</button>
+ <span id="st"></span>
+</div>
+<div id="msgs"></div>
+<div class="wrap"><div class="sheet" id="sheet">
+ <div class="wm"></div>
+ <div class="banner" id="banner">
+  <div class="cn" contenteditable data-f="cname" data-ph="Company name"></div>
+  <div class="qt">Quotation</div>
+  <img class="blogo" id="logoImg" alt="" style="display:none"><label class="logoPh np" id="logoPh" for="fLogo">+ Add logo</label>
+ </div>
+ <div class="addr" contenteditable data-f="caddr" data-ph="Address, phone, email, website"></div>
+ <table class="hd">
+  <colgroup><col style="width:29.6%"><col style="width:35.2%"><col style="width:35.2%"></colgroup>
+  <tr><td class="h">FINISH TYPE</td><td class="h">GLASS TYPE</td><td class="h">ALUMINIUM MAKE</td></tr>
+  <tr><td><div contenteditable data-f="finish" data-ph="e.g. Powder Coating"></div></td><td><div contenteditable data-f="glass" data-ph="e.g. 5MM CLEAR"></div></td><td><div contenteditable data-f="alum"></div></td></tr>
+ </table>
+ <table class="hd">
+  <colgroup><col style="width:29.6%"><col style="width:29.2%"><col style="width:29.2%"><col style="width:12%"></colgroup>
+  <tr><td>Quotation No.</td><td>Project Name</td><td>Customer Name</td><td>Date</td></tr>
+  <tr><td><div contenteditable data-f="qno" data-ph="Quotation no."></div></td><td><div contenteditable data-f="proj"></div></td><td><div contenteditable data-f="cust" data-ph="Customer name"></div></td><td><div contenteditable data-f="qdate"></div></td></tr>
+ </table>
+ <table class="it">
+  <colgroup><col style="width:29.6%"><col style="width:6%"><col style="width:13.8%"><col style="width:6.7%"><col style="width:6.3%"><col style="width:6.3%"><col style="width:5.1%"><col style="width:7.2%"><col style="width:7.6%"><col style="width:11.4%"></colgroup>
+  <thead><tr><th>Drawing</th><th>Cavity Code</th><th>Typology &amp; Location</th><th>W (mm)</th><th>H (mm)</th><th>Sq.&nbsp;Ft.</th><th>Nos.</th><th>Total Sq.&nbsp;Ft.</th><th>Rate/Sq. Ft.</th><th>Total Amount</th></tr></thead>
+  <tbody id="rows"></tbody>
+ </table>
+ <table class="sm"><tbody id="sum"></tbody></table>
+ <div class="words" id="words"></div>
+ <div class="terms"><h4>Terms &amp; Conditions</h4><div id="terms" contenteditable data-f="terms" data-ph="Terms and conditions (one per line)"></div></div>
+ <div class="sign"><span contenteditable data-f="signco" data-ph="For (company name)." style="display:inline-block;min-width:200px"></span><br><br><br>Authorized Signatory</div>
+</div></div>
+<script>
+"use strict";
+/* ================= Constants & helpers ================= */
+const MM = 304.8, KEY = "quotationEditor_v3";            // 1 ft = 304.8 mm
+const $ = s => document.querySelector(s);
+const num = v => { const n = parseFloat(v); return isFinite(n) ? n : 0; };
+const fmt = (n, d) => (isFinite(n) ? n : 0).toLocaleString("en-IN", {minimumFractionDigits: d, maximumFractionDigits: d});
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const raw = v => (v === "" || v == null) ? "" : v;
+const ONES = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+const TENS = ["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
+const below100 = n => n < 20 ? ONES[n] : TENS[Math.floor(n/10)] + (n%10 ? " " + ONES[n%10] : "");
+function words(n){                                       // Indian numbering: crore / lakh / thousand
+  n = Math.max(0, Math.round(n)); if (!n) return "Zero";
+  const parts = [];
+  for (const [v, nm] of [[1e7,"Crore"],[1e5,"Lakh"],[1e3,"Thousand"]]){ const q = Math.floor(n / v); if (q){ parts.push(words(q) + " " + nm); n %= v; } }
+  const h = Math.floor(n / 100); if (h){ parts.push(ONES[h] + " Hundred"); n %= 100; }
+  if (n) parts.push(below100(n));
+  return parts.join(" ");
+}
+
+/* ================= Data ================= */
+function blank(){
+  const d = new Date(), M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return {fmt: 3, f: {cname:"", caddr:"", finish:"", glass:"", alum:"", qno:"", proj:"", cust:"",
+    qdate: `${String(d.getDate()).padStart(2,"0")}-${M[d.getMonth()]}-${d.getFullYear()}`, terms:"", signco:""},
+    items: [], charges: [], gst: 0, brand: {logo: "", banner: ""}};
+}
+function fresh(){   // New Quotation: keep company block, terms, signature, logo and banner
+  const n = blank(); ["cname","caddr","terms","signco"].forEach(k => n.f[k] = S.f[k] || ""); n.brand = S.brand || n.brand; return n;
+}
+let S;
+
+/* ================= Calculation ================= */
+function calc(it){
+  if (it.orig) return it.orig;                           // untouched imported row keeps the PDF's printed numbers
+  const sq = (num(it.w) / MM) * (num(it.h) / MM), tot = sq * num(it.qty);
+  return {sq, tot, amt: tot * num(it.rate)};             // Sq.Ft. = W x H (mm to ft); Total = Sq.Ft. x Nos.; Amount = Total x Rate
+}
+function totals(){
+  let q = 0, tot = 0, amt = 0;
+  S.items.forEach(it => { const c = calc(it); q += num(it.qty); tot += c.tot; amt += c.amt; });
+  if (S.srcTot != null && S.items.length && S.items.every(it => it.orig)) tot = S.srcTot;   // PDF's own unrounded total
+  const price = Math.round(amt), gst = Math.round(price * num(S.gst) / 100);   // GST applied once, on the windows price
+  const others = S.charges.reduce((s, c) => s + num(c.amt), 0);
+  return {q, tot, amt, price, gst, others, grand: Math.round(price + gst + others)};
+}
+
+/* ================= Rendering ================= */
+function rowHTML(it, i){
+  const inp = (k, st) => `<input class="n" type="number" min="0" step="${st}" data-k="${k}" value="${raw(it[k])}">`;
+  return `<tr data-i="${i}">
+  <td class="imc">${it.img ? `<img src="${it.img}" alt="">` : `<div class="noimg">No drawing</div>`}<div class="np"><label class="fl">Upload drawing<input type="file" accept="image/*" data-act="img" hidden></label><button class="dl" data-act="del">Delete</button></div></td>
+  <td><input class="t" data-k="type" value="${esc(it.type)}"></td>
+  <td><div contenteditable data-k="loc" data-ph="Typology &amp; location">${esc(it.loc)}</div></td>
+  <td>${inp("w","any")}</td><td>${inp("h","any")}</td><td data-o="sq"></td><td>${inp("qty","1")}</td><td data-o="tot"></td><td>${inp("rate","any")}</td><td data-o="amt"></td></tr>`;
+}
+function renderRows(){
+  $("#rows").innerHTML = S.items.map(rowHTML).join("") +
+   `<tr class="tot"><td colspan="6">Total</td><td id="tQ"></td><td id="tF"></td><td></td><td id="tA"></td></tr>`;
+  S.items.forEach((_, i) => refreshRow(i));
+}
+function refreshRow(i){
+  const tr = $(`tr[data-i="${i}"]`); if (!tr) return;
+  const c = calc(S.items[i]), set = (o, v) => tr.querySelector(`[data-o="${o}"]`).textContent = v;
+  set("sq", fmt(c.sq,2)); set("tot", fmt(c.tot,2)); set("amt", fmt(c.amt,2));
+}
+function renderSummary(){
+  $("#sum").innerHTML =
+   `<tr><td>Total Number of Units</td><td id="sU"></td></tr>
+    <tr><td>Total Windows Price</td><td id="sP"></td></tr>
+    <tr><td>GST (<input class="n" type="number" min="0" step="any" id="gstPct" value="${raw(S.gst)}">%)</td><td id="gstAmt"></td></tr>` +
+   S.charges.map((c, i) => `<tr data-c="${i}"><td><div contenteditable data-k="name" data-ph="Charge name (e.g. Transportation)">${esc(c.name)}</div></td><td><input class="n" type="number" step="any" data-k="amt" value="${raw(c.amt)}"><span class="np"><button class="dl" data-act="delc">x</button></span></td></tr>`).join("") +
+   `<tr><td><b>Grand Total:</b></td><td><b id="gt"></b></td></tr>`;
+}
+function paintTotals(){
+  const t = totals(), a = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  a("#tQ", fmt(t.q,0)); a("#tF", fmt(t.tot,2)); a("#tA", fmt(t.amt,2));
+  a("#sU", fmt(t.q,0)); a("#sP", fmt(t.price,0)); a("#gstAmt", fmt(t.gst,2)); a("#gt", fmt(t.grand,0));
+  a("#words", `( Rupees ${words(t.grand)} Only )`);
+}
+function setWm(){ $(".wm").textContent = S.f.cname || ""; }
+function paintBrand(){
+  const b = S.brand || {}, d = (id, on) => $(id).style.display = on ? "" : "none";
+  if (b.logo) $("#logoImg").src = b.logo; else $("#logoImg").removeAttribute("src");
+  d("#logoImg", !!b.logo); d("#logoPh", !b.logo); d("#bLogoX", !!b.logo); d("#bBanX", !!b.banner);
+  $("#banner").style.backgroundImage = b.banner ? `url(${b.banner})` : "";
+  setWm();
+}
+function paint(){
+  document.querySelectorAll("[data-f]").forEach(el => el.textContent = S.f[el.dataset.f] || "");
+  paintBrand(); renderRows(); renderSummary(); update();
+}
+
+/* ================= Validation ================= */
+function validate(){
+  const m = [];
+  document.querySelectorAll(".err").forEach(e => e.classList.remove("err"));
+  if (!(S.f.cust || "").trim()) m.push("Customer name is required.");
+  if (!(S.f.qno || "").trim()) m.push("Quotation number is required.");
+  S.items.forEach((it, i) => {
+    if (it.orig) return;
+    const tr = $(`tr[data-i="${i}"]`), bad = (k, t) => { m.push(`${it.type}: ${t}`); const e = tr && tr.querySelector(`[data-k="${k}"]`); e && e.classList.add("err"); };
+    if (!(num(it.w) > 0)) bad("w", "width (mm) must be greater than 0.");
+    if (!(num(it.h) > 0)) bad("h", "height (mm) must be greater than 0.");
+    if (!(num(it.qty) >= 1) || !Number.isInteger(num(it.qty))) bad("qty", "Nos. must be a whole number, 1 or more.");
+    if (!(num(it.rate) > 0)) bad("rate", "enter a rate per Sq.Ft. greater than 0.");
+  });
+  if (num(S.gst) < 0) m.push("GST % cannot be negative.");
+  $("#msgs").innerHTML = m.map(x => `<div>${esc(x)}</div>`).join("");
+}
+
+/* ================= Persistence ================= */
+let timer;
+function save(now){
+  clearTimeout(timer);
+  const run = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); $("#st").textContent = "Saved " + new Date().toLocaleTimeString(); }
+    catch (e) { $("#st").textContent = "Could not save in browser (storage full?). Use Export JSON."; } };
+  now ? run() : (timer = setTimeout(run, 400));
+}
+function update(){ paintTotals(); validate(); save(); }
+function loadState(o){
+  if (!o || o.fmt !== 3 || !Array.isArray(o.items) || typeof o.f !== "object") throw new Error("Not a quotation file made with this version of the editor.");
+  S = {fmt: 3, f: {...blank().f, ...o.f}, items: o.items, charges: Array.isArray(o.charges) ? o.charges : [], gst: num(o.gst), brand: {logo: "", banner: "", ...(o.brand || {})}, srcTot: o.srcTot == null ? null : num(o.srcTot)};
+  paint();
+}
+
+/* ================= Events ================= */
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.f !== undefined){ S.f[t.dataset.f] = t.innerText.replace(/\n$/, ""); if (t.dataset.f === "cname") setWm(); validate(); save(); return; }
+  if (t.id === "gstPct"){ S.gst = t.value === "" ? 0 : num(t.value); update(); return; }
+  const cr = t.closest("tr[data-c]");
+  if (cr){ const c = S.charges[+cr.dataset.c]; if (t.dataset.k === "amt") c.amt = t.value === "" ? "" : num(t.value); else c.name = t.innerText.replace(/\n$/, ""); update(); return; }
+  const tr = t.closest("tr[data-i]"); if (!tr || !t.dataset.k) return;
+  const it = S.items[+tr.dataset.i], k = t.dataset.k;
+  if (["w","h","qty","rate"].includes(k)){ it[k] = t.value === "" ? "" : num(t.value); delete it.orig; }
+  else it[k] = t.isContentEditable ? t.innerText.replace(/\n$/, "") : t.value;
+  refreshRow(+tr.dataset.i); update();
+});
+document.addEventListener("change", e => {
+  const t = e.target, tr = t.closest("tr[data-i]");
+  if (t.dataset.act === "img" && tr){
+    const f = t.files[0]; if (!f) return;
+    if (!f.type.startsWith("image/")) return alert("Please choose an image file (JPG, PNG, WebP...).");
+    readImg(f, 700, "image/jpeg", url => { S.items[+tr.dataset.i].img = url; renderRows(); update(); });
+  }
+});
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b) return;
+  const tr = b.closest("tr");
+  if (b.dataset.act === "del"){ const it = S.items[+tr.dataset.i];
+    if (confirm(`Delete type ${it.type}? This cannot be undone.`)){ S.items.splice(+tr.dataset.i, 1); S.srcTot = null; renderRows(); update(); } }
+  if (b.dataset.act === "delc"){ S.charges.splice(+tr.dataset.c, 1); renderSummary(); update(); }
+});
+/* Resize uploads so print/save stay light; PNG keeps transparency (logo) */
+function readImg(file, max, type, cb){
+  const r = new FileReader();
+  r.onload = () => { const im = new Image();
+    im.onload = () => { const k = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement("canvas");
+      c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+      const g = c.getContext("2d"); if (type === "image/jpeg"){ g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); }
+      g.drawImage(im, 0, 0, c.width, c.height); cb(c.toDataURL(type, .88)); };
+    im.onerror = () => alert("That image could not be read."); im.src = r.result; };
+  r.onerror = () => alert("That file could not be read.");
+  r.readAsDataURL(file);
+}
+$("#bAdd").onclick = () => {
+  const n = S.items.reduce((m, it) => Math.max(m, parseInt(String(it.type).replace(/\D/g, "")) || 0), 0) + 1;
+  S.items.push({type: "W" + n, img: "", loc: "", w: "", h: "", qty: 1, rate: ""});
+  renderRows(); update();
+  const r = $(`tr[data-i="${S.items.length - 1}"]`); r.scrollIntoView({block: "center"}); r.querySelector('[data-k="loc"]').focus();
+};
+$("#bChg").onclick = () => { S.charges.push({name: "", amt: ""}); renderSummary(); update(); };
+$("#bSave").onclick = () => save(true);
+$("#bPrint").onclick = () => { validate(); if ($("#msgs").children.length && !confirm("There are validation warnings. Print anyway?")) return; stampCSS(); window.print(); };
+$("#bNew").onclick = () => { if (confirm("Start a new quotation? Items and customer details will be cleared; company details, terms and logo are kept (export JSON first to keep this one).")){ S = fresh(); paint(); } };
+$("#bAll").onclick = () => {
+  if (!confirm("Clear ALL data, including company name, address, logo, terms, items and the saved copy in this browser? This cannot be undone.")) return;
+  clearTimeout(timer); try { localStorage.removeItem(KEY); } catch (e) {}
+  S = blank(); paint(); $("#st").textContent = "All data cleared";
+};
+$("#bExp").onclick = () => {
+  const a = document.createElement("a"), q = (S.f.qno || "quotation").replace(/[^\w-]+/g, "_");
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(S)], {type: "application/json"})); a.download = q + ".json"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$("#fImp").onchange = e => {
+  const f = e.target.files[0]; if (!f) return; const r = new FileReader();
+  r.onload = () => { try { loadState(JSON.parse(r.result)); } catch (x) { alert("Import failed: " + x.message); } e.target.value = ""; };
+  r.readAsText(f);
+};
+$("#fLogo").onchange = e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  if (!f.type.startsWith("image/")) return alert("Please choose an image file.");
+  readImg(f, 500, "image/png", url => { S.brand.logo = url; paintBrand(); save(); });
+};
+$("#bLogoX").onclick = () => { if (confirm("Remove the logo?")){ S.brand.logo = ""; paintBrand(); save(); } };
+$("#bBanX").onclick = () => { S.brand.banner = ""; paintBrand(); save(); };
+/* Print date & time at the top of every page (set just before printing, so it is the real print time) */
+function stampCSS(){
+  const d = new Date(), p = x => String(x).padStart(2, "0"), M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  $("#stamp").textContent = `@page{@top-right{content:"${p(d.getDate())}-${M[d.getMonth()]}-${d.getFullYear()}  ${p(d.getHours())}:${p(d.getMinutes())}";font:10px Arial}}`;
+}
+stampCSS();
+window.addEventListener("beforeprint", () => { stampCSS(); document.title = (S.f.qno || "Quotation").replace(/[\\/:*?"<>|]/g, "-"); });
+
+/* ================= PDF import (this "SMG-style" format) =================
+   Reads a text-based quotation PDF in this layout and loads it into the editor: header fields, rows, drawings,
+   logo/banner pictures, GST, extra charges, terms. Uses pdf.js from cdnjs, so only this feature needs internet. */
+const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+// column edges as fractions of page width: Drawing | Code | Typology | W | H | Sq.Ft | Nos | Total Sq.Ft | Rate | Amount
+const CB = [.03,.305,.36,.489,.551,.608,.667,.714,.781,.851,1.01];
+function loadPdfJs(){
+  if (window.pdfjsLib) return Promise.resolve();
+  return new Promise((ok, no) => { const s = document.createElement("script"); s.src = PDFJS + "pdf.min.js"; s.onload = ok;
+    s.onerror = () => no(new Error("The PDF reader could not be loaded. Check your internet connection and try again.")); document.head.appendChild(s); })
+   .then(() => fetch(PDFJS + "pdf.worker.min.js")).then(r => r.text())
+   .then(t => { pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(new Blob([t], {type: "text/javascript"})); });
+}
+const clean = s => s.normalize("NFKC").replace(/\u019F/g, "ti").replace(/\u01A9/g, "tt").replace(/\(cid:\d+\)/g, "ti").trim();   // ligature glyphs
+function groupLines(its){
+  const L = []; its = its.slice().sort((a, b) => b.y - a.y || a.x - b.x);
+  its.forEach(t => { const l = L.find(l => Math.abs(l.y - t.y) < 2.5); l ? l.t.push(t) : L.push({y: t.y, t: [t]}); });
+  L.forEach(l => l.t.sort((a, b) => a.x - b.x)); return L;
+}
+const lineText = l => l.t.map(t => t.s).join(" ");
+/* Where pictures are placed on the page (PDF units) plus the picture object, by walking the drawing operators */
+async function imageBoxes(page){
+  const ops = await page.getOperatorList(), O = pdfjsLib.OPS, out = [], st = [];
+  const mul = (A, B) => [A[0]*B[0]+A[1]*B[2], A[0]*B[1]+A[1]*B[3], A[2]*B[0]+A[3]*B[2], A[2]*B[1]+A[3]*B[3], A[4]*B[0]+A[5]*B[2]+B[4], A[4]*B[1]+A[5]*B[3]+B[5]];
+  let m = [1,0,0,1,0,0];
+  ops.fnArray.forEach((fn, i) => {
+    const a = ops.argsArray[i];
+    if (fn === O.save) st.push(m.slice());
+    else if (fn === O.restore) m = st.pop() || [1,0,0,1,0,0];
+    else if (fn === O.transform) m = mul(a, m);
+    else if (fn === O.paintImageXObject || fn === O.paintInlineImageXObject || fn === O.paintJpegXObject){
+      const xs = [0,1,1,0].map((u, k) => m[0]*u + m[2]*[0,0,1,1][k] + m[4]), ys = [0,1,1,0].map((u, k) => m[1]*u + m[3]*[0,0,1,1][k] + m[5]);
+      out.push({x0: Math.min(...xs), x1: Math.max(...xs), y0: Math.min(...ys), y1: Math.max(...ys),
+        name: fn === O.paintInlineImageXObject ? null : a[0], data: fn === O.paintInlineImageXObject ? a[0] : null});
+    }
+  });
+  return out;
+}
+/* Turn the PDF's own picture data into a data URL (clean: no text or watermark on top of it) */
+async function boxImg(page, b, type, max){
+  let o = b.data;
+  const get = store => new Promise(r => { try { store.get(b.name, r); } catch (e) { r(null); } });
+  if (!o) o = await get(page.objs); if (!o) o = await get(page.commonObjs);
+  if (!o) return "";
+  const w = o.width, h = o.height, c = document.createElement("canvas"); c.width = w; c.height = h;
+  const g = c.getContext("2d");
+  if (o.bitmap) g.drawImage(o.bitmap, 0, 0);
+  else if (o.data){
+    const id = g.createImageData(w, h), d = id.data, s = o.data;
+    if (o.kind === 3) d.set(s.subarray ? s.subarray(0, d.length) : s);
+    else if (o.kind === 2) for (let i = 0, j = 0; i < w * h; i++){ d[j++] = s[i*3]; d[j++] = s[i*3+1]; d[j++] = s[i*3+2]; d[j++] = 255; }
+    else if (o.kind === 1){ const rb = (w + 7) >> 3;
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++){ const v = (s[y*rb + (x>>3)] >> (7 - (x&7))) & 1 ? 255 : 0, j = (y*w + x) * 4; d[j] = d[j+1] = d[j+2] = v; d[j+3] = 255; } }
+    else return "";
+    g.putImageData(id, 0, 0);
+  } else return "";
+  const k = Math.min(1, max / Math.max(w, h)), c2 = document.createElement("canvas"); c2.width = Math.round(w * k); c2.height = Math.round(h * k);
+  const g2 = c2.getContext("2d"); if (type === "image/jpeg"){ g2.fillStyle = "#fff"; g2.fillRect(0, 0, c2.width, c2.height); }
+  g2.drawImage(c, 0, 0, c2.width, c2.height); return c2.toDataURL(type, .88);
+}
+async function importPdf(file){
+  await loadPdfJs();
+  const pdf = await pdfjsLib.getDocument({data: new Uint8Array(await file.arrayBuffer())}).promise;
+  const items = [], allLines = []; let skipped = 0; const brand = {logo: "", banner: ""}; let head = null;
+  for (let p = 1; p <= pdf.numPages; p++){
+    const page = await pdf.getPage(p), vp = page.getViewport({scale: 1}), W = vp.width, H = vp.height;
+    const its = (await page.getTextContent()).items.filter(t => t.str.trim()).map(t => ({s: clean(t.str), x: t.transform[4], y: t.transform[5]}));
+    const lines = groupLines(its); allLines.push(...lines);
+    const boxes = await imageBoxes(page);
+    if (p === 1){
+      head = lines;
+      const top = boxes.filter(b => H - b.y1 < 6 && b.y1 - b.y0 < 120);
+      const bn = top.filter(b => b.x1 - b.x0 > W * .6)[0], lg = top.filter(b => b.x0 > W * .6 && b.x1 - b.x0 < W * .3)[0];
+      if (bn) brand.banner = await boxImg(page, bn, "image/jpeg", 1000);
+      if (lg) brand.logo = await boxImg(page, lg, "image/png", 500);
+    }
+    // item rows: one per drawing picture in the first column
+    const rows = boxes.filter(b => b.x0 < W * .08 && b.x1 - b.x0 > W * .2 && b.x1 - b.x0 < W * .4 && b.y1 - b.y0 > 40).sort((a, b) => b.y1 - a.y1);
+    for (const b of rows){
+      const cols = Array.from({length: 10}, () => []);
+      its.filter(t => t.y >= b.y0 - 4 && t.y <= b.y1 + 4).forEach(t => { for (let c = 0; c < 10; c++) if (t.x >= CB[c] * W && t.x < CB[c + 1] * W) cols[c].push(t); });
+      const cl = c => groupLines(cols[c]).map(lineText);
+      // the cavity code is the short "W1"-style token; any other text starting in that column belongs to the typology
+      const tcode = cols[1].find(t => /^[A-Za-z]{1,3}\d{1,3}$/.test(t.s)); cols[2] = cols[2].concat(cols[1].filter(t => t !== tcode));
+      const type = tcode ? tcode.s : "", w = num(cl(3)[0]), h = num(cl(4)[0]);
+      if (!type || !w || !h){ skipped++; continue; }
+      items.push({type, img: await boxImg(page, b, "image/jpeg", 700), loc: cl(2).join("\n"), w, h, qty: parseInt(cl(6)[0]) || 1, rate: num(cl(8)[0]),
+        orig: {sq: num(cl(5)[0]), tot: num(cl(7)[0]), amt: num(cl(9)[0])}});
+    }
+  }
+  if (!items.length) throw new Error("No item rows were found. This reader only works with text-based PDFs in this quotation layout.");
+  const f = {}, L = head.map(lineText), at = (re, from = 0) => { for (let i = from; i < L.length; i++) if (re.test(L[i])) return i; return -1; };
+  f.cname = L[0] || "";
+  const qi = at(/^Quotation$/), fi = at(/^FINISH TYPE/);
+  if (qi >= 0 && fi > qi) f.caddr = L.slice(qi + 1, fi).join("\n");
+  const split = (line, edges) => { const out = edges.map(() => []); if (line) line.t.forEach(t => { let k = 0; edges.forEach((e, j) => { if (t.x >= e * 612) k = j; }); out[k].push(t.s); }); return out.map(a => a.join(" ")); };
+  if (fi >= 0){ const [a, b, c] = split(head[fi + 1], [0, .305, .631]); f.finish = a; f.glass = b; f.alum = c; }
+  const ni = at(/^Quotation No\./);
+  if (ni >= 0){ const [a, b, c, d] = split(head[ni + 1], [0, .305, .575, .83]); f.qno = a; f.proj = b; f.cust = c; f.qdate = d; }
+  // totals block (right-hand side) and terms: gathered from every page
+  const R = allLines.map(l => ({y: l.y, str: lineText(l), x: l.t[0].x}));
+  const gi = R.findIndex(r => /^GST\s*\(/.test(r.str)), ge = R.findIndex(r => /^Grand Total/.test(r.str));
+  let gst = 0; const charges = [];
+  if (gi >= 0){ const m = R[gi].str.match(/GST\s*\(\s*([\d.]+)\s*%/); gst = m ? +m[1] : 0;
+    for (let i = gi + 1; i < (ge > gi ? ge : gi + 1); i++){ const m = R[i].str.match(/^(.*?)\s+(-?[\d,]*\.?\d+)$/); if (m) charges.push({name: m[1], amt: num(m[2].replace(/,/g, ""))}); } }
+  const ti = R.findIndex(r => /^Terms\s*&\s*Conditions/i.test(r.str)), si = R.findIndex((r, i) => i > ti && /^For\b/.test(r.str));
+  if (ti >= 0){
+    const t = []; R.slice(ti + 1, si > ti ? si : undefined).forEach(r => {
+      if (/^\d+\.|^[a-z]\./.test(r.str) || !t.length) t.push((/^[a-z]\./.test(r.str) ? "   " : "") + r.str); else t[t.length - 1] += " " + r.str; });
+    f.terms = t.join("\n");
+  }
+  if (si >= 0) f.signco = R[si].str.replace(/\s+([.,])/g, "$1");
+  const tl = R.map(r => r.str.match(/^Total\s+(\d+)\s+([\d.]+)\s+([\d.]+)$/)).find(Boolean), srcTot = tl ? +tl[2] : null;
+  return {state: {fmt: 3, f: {...blank().f, ...f}, items, charges, gst, brand, srcTot}, skipped};
+}
+$("#fPdf").onchange = async e => {
+  const file = e.target.files[0]; e.target.value = ""; if (!file) return;
+  if (!confirm("Import this PDF? It replaces the quotation you are editing (use Export JSON first to keep it).")) return;
+  $("#st").textContent = "Reading PDF...";
+  try {
+    const r = await importPdf(file); S = r.state; paint();
+    alert(`Imported ${S.items.length} item(s).` + (r.skipped ? ` ${r.skipped} row(s) could not be read.` : "") + "\nPlease compare with your PDF before sending.");
+  } catch (x) { alert("PDF import failed: " + x.message); }
+  $("#st").textContent = "";
+};
+
+/* ================= Start ================= */
+try { const s = localStorage.getItem(KEY); if (s) loadState(JSON.parse(s)); else { S = blank(); paint(); } } catch (e) { S = blank(); paint(); }
+</script></body></html>
