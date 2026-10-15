@@ -45,6 +45,9 @@ table{border-collapse:collapse}
 .n,.t{width:100%;border:1px solid #bcc;border-radius:2px;font:inherit;text-align:center;padding:1px 0;background:#fff}
 .np button,.np .fl{font:600 11px Arial;padding:2px 6px;margin:2px;border:1px solid #999;background:#f4f4f4;border-radius:3px;cursor:pointer;display:inline-block}
 .np .dl{color:#a11}
+.np select{font:11px Arial;width:100%;margin-top:2px}
+.rm{display:none;font-size:10px}
+@media print{.rm{display:block}}
 .err{outline:2px solid #d33;background:#ffeaea}
 /* ===== Summary, terms ===== */
 .sm{margin:0 0 0 auto;width:52%;font-family:Calibri,Carlito,Arial,sans-serif;font-size:12px;break-inside:avoid}
@@ -55,11 +58,56 @@ table{border-collapse:collapse}
 .terms{margin-top:14px;break-inside:avoid-page}
 .terms h4{margin:0 0 6px;font:700 14px Arial,sans-serif}
 .sign{margin-top:12px;break-inside:avoid;font-size:13px}
+/* ===== Format 1 (classic) ===== */
+.cl{font-family:Calibri,Carlito,Arial,sans-serif}
+.chead{display:flex;align-items:center;gap:10px}
+.clogo{max-width:105px;max-height:75px;object-fit:contain;flex:none}
+.clogoPh{width:105px;height:60px;border:1px dashed #99a;color:#889;font:600 12px Arial;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.chc{flex:1;text-align:center;font:700 13px/1.3 Cambria,Georgia,serif;color:#4a86e8}
+.cnm{font:400 25px Copperplate,"Copperplate Gothic Light",Cinzel,Georgia,serif;color:#3b4cc0}
+.cq{text-align:center;color:#12129c;font:700 17px Arial,sans-serif;margin:16px 0 4px}
+.cpd{width:100%;font:12px Arial,sans-serif}
+.cpd td{border:1px solid #222;padding:2px 4px;vertical-align:top}
+.cpd .h{background:#e3e3e3;font-weight:700}
+.cletter{margin:12px 0 4px;font-size:12.5px;line-height:1.5}
+.csign{margin:14px 0 12px;font-size:12.5px;break-inside:avoid}
+.ct{width:100%;table-layout:fixed;font-size:11.5px;margin-top:6px}
+.ct th,.ct td{border:1px solid #222;padding:2px 4px;vertical-align:top}
+.ct th{font-weight:700;text-align:center;line-height:1.25}
+.ct thead{display:table-header-group}
+.ct tr{break-inside:avoid;page-break-inside:avoid}
+.ct .r{text-align:right}.ct .tot td{font-weight:700;background:#f0f0f0}
+.cimc img{width:100%;height:105px;object-fit:contain;display:block}
+.cl .noimg{height:105px}
+.cl .sz{text-align:center}.cl .sz .n{width:41%}
+.cl .n.rt{text-align:right}
+.csum{display:flex;gap:18px;margin-top:10px;align-items:flex-start;break-inside:avoid}
+.csum table{font-size:11.5px}.csum td,.csum th{border:1px solid #222;padding:2px 5px}
+.cavg{width:42%}.cchg{flex:1}
+.csum .r{text-align:right;font-weight:700}.csum th{text-align:left}
+.csum .n{width:70px}.csum #gstPct{width:3.4em;text-align:center}
+.cwords{border:1px solid #222;text-align:center;font-weight:700;padding:4px;margin-top:10px;font-size:12px;break-inside:avoid}
+.dt{text-align:right;font:600 12px Arial,sans-serif;color:#222;margin-bottom:4px}
+.pw{text-align:center;font:600 11px Arial,sans-serif;color:#555;margin-top:14px;padding-top:6px;border-top:1px solid #ccc}
+.ct .sz{white-space:nowrap}.cl .sz .n{min-width:0}
+.ct td>.n[data-k^="rate"]{display:block;margin-bottom:2px}
+.ct td>.n[data-k="qty"]{text-align:center;padding:1px 2px;font-weight:600}
+.cl .n:disabled{color:#111;-webkit-text-fill-color:#111;background:#f1f1f1}
+.cterms{margin-top:18px;break-inside:avoid-page}.cterms .tt{font-size:10.5px;font-weight:700}
+.cterms #cterms{font:800 13px "Arial Black",Arial,sans-serif;line-height:2}
+.bar select{padding:7px 8px;border-radius:4px;border:0;font:600 13px Arial,sans-serif;max-width:260px}
 /* ===== Print ===== */
 @page{size:A4;margin:14mm 10mm 14mm;@bottom-center{content:"Page " counter(page) " of " counter(pages);font:10px Arial}@bottom-right{content:"Powered By Gomez";font:10px Arial}}
 @media print{
  body{background:#fff;font-size:12px}
- .bar,#msgs,.np,.logoPh{display:none!important}
+ .bar,#msgs,.np,.logoPh,.clogoPh,.pw{display:none!important}
+ /* classic: print column widths give Size / Area / Rate enough room so nothing wraps or overflows */
+ .ct{table-layout:fixed;width:100%;font-size:11px}
+ .ct col:nth-child(1){width:5%}.ct col:nth-child(2){width:11%}.ct col:nth-child(3){width:8%}.ct col:nth-child(4){width:15%}.ct col:nth-child(5){width:17%}.ct col:nth-child(6){width:6%}.ct col:nth-child(7){width:12%}.ct col:nth-child(8){width:15%}.ct col:nth-child(9){width:11%}
+ .ct th{font-size:10px;padding:2px 1px;white-space:nowrap}
+ .ct td{padding:2px 3px;overflow-wrap:anywhere}
+ .ct .sz{white-space:nowrap;overflow-wrap:normal}.cl .sz .n{width:40%}
+ .ct .r,.ct td:nth-child(8){white-space:nowrap}
  .wrap{padding:0;overflow:visible}
  .sheet{width:auto;min-width:0;padding:0;box-shadow:none;margin:0}
  .n,.t{border:0!important;background:transparent!important;padding:0}
@@ -72,6 +120,7 @@ table{border-collapse:collapse}
 }
 </style><style id="stamp"></style></head><body>
 <div class="bar">
+ <select id="fmtSel" title="Quotation format"><option value="classic">Format 1: Classic (m, Sq.Mtr. / Sq.Ft.)</option><option value="smg">Format 2: SMG style (mm, Sq.Ft.)</option></select>
  <button class="add" id="bAdd">+ Add New Type</button>
  <button id="bChg">+ Add Charge</button>
  <button class="pri" id="bPrint">Print / Save as PDF</button>
@@ -80,14 +129,14 @@ table{border-collapse:collapse}
  <label class="b">Import JSON<input type="file" id="fImp" accept=".json,application/json" hidden></label>
  <label class="b">Upload Logo<input type="file" id="fLogo" accept="image/*" hidden></label>
  <button id="bLogoX" style="display:none">Remove Logo</button>
- <button id="bBanX" style="display:none">Remove Banner Image</button>
+ <button id="bBanX" style="display:none">Remove Header Image</button>
  <label class="b">Import PDF<input type="file" id="fPdf" accept="application/pdf,.pdf" hidden></label>
  <button id="bNew" class="dg">New Quotation</button>
  <button id="bAll" class="dg">Clear All Data</button>
  <span id="st"></span>
 </div>
 <div id="msgs"></div>
-<div class="wrap"><div class="sheet" id="sheet">
+<div class="wrap"><div class="sheet" id="sheet-smg">
  <div class="wm"></div>
  <div class="banner" id="banner">
   <div class="cn" contenteditable data-f="cname" data-ph="Company name"></div>
@@ -114,11 +163,41 @@ table{border-collapse:collapse}
  <div class="words" id="words"></div>
  <div class="terms"><h4>Terms &amp; Conditions</h4><div id="terms" contenteditable data-f="terms" data-ph="Terms and conditions (one per line)"></div></div>
  <div class="sign"><span contenteditable data-f="signco" data-ph="For (company name)." style="display:inline-block;min-width:200px"></span><br><br><br>Authorized Signatory</div>
-</div></div>
+</div>
+<div class="sheet cl" id="sheet-classic" style="display:none">
+ <div class="wm"></div>
+ <div class="dt">Date: <span id="nowD"></span> &nbsp; Time: <span id="nowT"></span></div>
+ <div class="chead">
+  <img class="clogo" id="clogoImg" alt="" style="display:none"><label class="np clogoPh" id="clogoPh" for="fLogo">+ Add logo</label>
+  <div class="chc"><img id="cnameImg" alt="" style="display:none;width:100%;max-width:430px"><div class="cnm" id="cnameTxt" contenteditable data-f="cname" data-ph="Company name"></div><div contenteditable data-f="caddr1" data-ph="Address line 1"></div><div contenteditable data-f="caddr2" data-ph="Address line 2"></div><div contenteditable data-f="ctel" data-ph="Phone, email"></div></div>
+ </div>
+ <h2 class="cq">Quotation</h2>
+ <table class="cpd">
+  <colgroup><col style="width:48%"><col style="width:35%"><col style="width:17%"></colgroup>
+  <tr><td class="h">Party Details</td><td class="h">Quotation No.:- <span contenteditable data-f="qno" data-ph="Quotation no." style="display:inline"></span></td><td class="h">Date:-<span contenteditable data-f="qdate" style="display:inline"></span></td></tr>
+  <tr><td style="font-weight:700;font-size:13px">Party Name:- <span contenteditable data-f="pname" data-ph="Party name" style="display:inline"></span></td><td colspan="2">Ref. By – <span contenteditable data-f="ref" style="display:inline"></span></td></tr>
+  <tr><td style="height:84px">Address:- <span contenteditable data-f="paddr" style="display:inline"></span><br><br>Contact Person :- <span contenteditable data-f="pcp" style="display:inline"></span><br>Contact No.:- <span contenteditable data-f="pcno" style="display:inline"></span></td><td colspan="2">Note:– <span contenteditable data-f="note" style="display:inline"></span></td></tr>
+ </table>
+ <div class="cletter" contenteditable data-f="letter" data-ph="Introductory letter (optional)"></div>
+ <div class="csign"><b contenteditable data-f="signco" data-ph="For (company name)," style="display:inline-block;min-width:200px"></b><br><br><br>Authorized Signatory</div>
+ <table class="ct">
+  <colgroup><col style="width:5%"><col style="width:12%"><col style="width:9%"><col style="width:17%"><col style="width:17%"><col style="width:7%"><col style="width:10%"><col style="width:13%"><col style="width:10%"></colgroup>
+  <thead><tr><th>Type</th><th>Image</th><th>Location</th><th>Production Description</th><th>Size&nbsp;(Mtr.)<br>Size&nbsp;(Sq.Ft.)<br>W × H</th><th>Qty</th><th>Area&nbsp;(Sq.Mtr.)<br>Area&nbsp;(Sq.Ft.)</th><th>Rate&nbsp;/&nbsp;(Sq.Mtr.)<br>Rate&nbsp;/&nbsp;(Sq.Ft.)</th><th>Amount (Rs.)</th></tr></thead>
+  <tbody id="crows"></tbody>
+ </table>
+ <div class="csum">
+  <table class="cavg"><tr><td class="r">Average Rate / Sq.Mtr. :</td><td><b id="cavM"></b></td></tr><tr><td class="r">Average Rate / Sq.Ft. :</td><td><b id="cavF"></b></td></tr></table>
+  <table class="cchg"><tbody id="csum"></tbody></table>
+ </div>
+ <div class="cwords" id="cwords"></div>
+ <div class="cterms"><div class="tt">TERMS &amp; CONDITION :</div><div id="cterms" contenteditable data-f="terms" data-ph="Terms and conditions (one per line)"></div></div>
+ <div class="pw">Powered By Gomez</div>
+</div>
+</div>
 <script>
 "use strict";
 /* ================= Constants & helpers ================= */
-const MM = 304.8, KEY = "quotationEditor_v3";            // 1 ft = 304.8 mm
+const MM = 304.8, KEY = "quotationEditor_v4", OLDKEY = "quotationEditor_v3";            // 1 ft = 304.8 mm
 const $ = s => document.querySelector(s);
 const num = v => { const n = parseFloat(v); return isFinite(n) ? n : 0; };
 const fmt = (n, d) => (isFinite(n) ? n : 0).toLocaleString("en-IN", {minimumFractionDigits: d, maximumFractionDigits: d});
@@ -137,26 +216,33 @@ function words(n){                                       // Indian numbering: cr
 }
 
 /* ================= Data ================= */
-function blank(){
+function blankS(){
   const d = new Date(), M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  return {fmt: 3, f: {cname:"", caddr:"", finish:"", glass:"", alum:"", qno:"", proj:"", cust:"",
+  return {format: "smg", fmt: 3, f: {cname:"", caddr:"", finish:"", glass:"", alum:"", qno:"", proj:"", cust:"",
     qdate: `${String(d.getDate()).padStart(2,"0")}-${M[d.getMonth()]}-${d.getFullYear()}`, terms:"", signco:""},
     items: [], charges: [], gst: 0, brand: {logo: "", banner: ""}};
 }
-function fresh(){   // New Quotation: keep company block, terms, signature, logo and banner
-  const n = blank(); ["cname","caddr","terms","signco"].forEach(k => n.f[k] = S.f[k] || ""); n.brand = S.brand || n.brand; return n;
+function blank(fmt){ return fmt === "classic" ? blankC() : blankS(); }
+function fresh(){   // New Quotation: keep company block, terms, signature, logo and banner of the current format
+  const n = blank(S.format), keep = isC() ? ["cname","caddr1","caddr2","ctel","letter","terms","signco"] : ["cname","caddr","terms","signco"];
+  keep.forEach(k => n.f[k] = S.f[k] || ""); n.brand = S.brand || n.brand; return n;
 }
-let S;
+let S, ALL;   // ALL holds one document per format; S is the one being edited
+function renderRows(){ isC() ? renderRowsC() : renderRowsS(); }
+function refreshRow(i){ isC() ? refreshRowC(i) : refreshRowS(i); }
+function renderSummary(){ isC() ? renderSummaryC() : renderSummaryS(); }
+function paintTotals(){ isC() ? paintTotalsC() : paintTotalsS(); }
+function validate(){ isC() ? validateC() : validateS(); }
 
 /* ================= Calculation ================= */
-function calc(it){
+function calcS(it){
   if (it.orig) return it.orig;                           // untouched imported row keeps the PDF's printed numbers
   const sq = (num(it.w) / MM) * (num(it.h) / MM), tot = sq * num(it.qty);
-  return {sq, tot, amt: tot * num(it.rate)};             // Sq.Ft. = W x H (mm to ft); Total = Sq.Ft. x Nos.; Amount = Total x Rate
+  return {sq, tot, amt: (it.mode === "qty" ? num(it.qty) : tot) * num(it.rate)};             // Sq.Ft. = W x H (mm to ft); Total = Sq.Ft. x Nos.; Amount = Total Sq.Ft. x Rate, or Nos. x Rate when this window is priced "per Nos."
 }
-function totals(){
+function totalsS(){
   let q = 0, tot = 0, amt = 0;
-  S.items.forEach(it => { const c = calc(it); q += num(it.qty); tot += c.tot; amt += c.amt; });
+  S.items.forEach(it => { const c = calcS(it); q += num(it.qty); tot += c.tot; amt += c.amt; });
   if (S.srcTot != null && S.items.length && S.items.every(it => it.orig)) tot = S.srcTot;   // PDF's own unrounded total
   const price = Math.round(amt), gst = Math.round(price * num(S.gst) / 100);   // GST applied once, on the windows price
   const others = S.charges.reduce((s, c) => s + num(c.amt), 0);
@@ -164,25 +250,26 @@ function totals(){
 }
 
 /* ================= Rendering ================= */
-function rowHTML(it, i){
+function rowHTMLS(it, i){
   const inp = (k, st) => `<input class="n" type="number" min="0" step="${st}" data-k="${k}" value="${raw(it[k])}">`;
   return `<tr data-i="${i}">
   <td class="imc">${it.img ? `<img src="${it.img}" alt="">` : `<div class="noimg">No drawing</div>`}<div class="np"><label class="fl">Upload drawing<input type="file" accept="image/*" data-act="img" hidden></label><button class="dl" data-act="del">Delete</button></div></td>
   <td><input class="t" data-k="type" value="${esc(it.type)}"></td>
   <td><div contenteditable data-k="loc" data-ph="Typology &amp; location">${esc(it.loc)}</div></td>
-  <td>${inp("w","any")}</td><td>${inp("h","any")}</td><td data-o="sq"></td><td>${inp("qty","1")}</td><td data-o="tot"></td><td>${inp("rate","any")}</td><td data-o="amt"></td></tr>`;
+  <td>${inp("w","any")}</td><td>${inp("h","any")}</td><td data-o="sq"></td><td>${inp("qty","1")}</td><td data-o="tot"></td><td>${inp("rate","any")}<div class="np"><select data-k="mode" title="How this window is priced"><option value="sqft"${it.mode==="qty"?"":" selected"}>per Sq.Ft.</option><option value="qty"${it.mode==="qty"?" selected":""}>per Nos. (piece)</option></select></div><div class="rm" data-o="rm"></div></td><td data-o="amt"></td></tr>`;
 }
-function renderRows(){
-  $("#rows").innerHTML = S.items.map(rowHTML).join("") +
+function renderRowsS(){
+  $("#rows").innerHTML = S.items.map(rowHTMLS).join("") +
    `<tr class="tot"><td colspan="6">Total</td><td id="tQ"></td><td id="tF"></td><td></td><td id="tA"></td></tr>`;
-  S.items.forEach((_, i) => refreshRow(i));
+  S.items.forEach((_, i) => refreshRowS(i));
 }
-function refreshRow(i){
+function refreshRowS(i){
   const tr = $(`tr[data-i="${i}"]`); if (!tr) return;
-  const c = calc(S.items[i]), set = (o, v) => tr.querySelector(`[data-o="${o}"]`).textContent = v;
+  const c = calcS(S.items[i]), set = (o, v) => tr.querySelector(`[data-o="${o}"]`).textContent = v;
+  set("rm", S.items[i].mode === "qty" ? "per Nos." : "");
   set("sq", fmt(c.sq,2)); set("tot", fmt(c.tot,2)); set("amt", fmt(c.amt,2));
 }
-function renderSummary(){
+function renderSummaryS(){
   $("#sum").innerHTML =
    `<tr><td>Total Number of Units</td><td id="sU"></td></tr>
     <tr><td>Total Windows Price</td><td id="sP"></td></tr>
@@ -190,27 +277,32 @@ function renderSummary(){
    S.charges.map((c, i) => `<tr data-c="${i}"><td><div contenteditable data-k="name" data-ph="Charge name (e.g. Transportation)">${esc(c.name)}</div></td><td><input class="n" type="number" step="any" data-k="amt" value="${raw(c.amt)}"><span class="np"><button class="dl" data-act="delc">x</button></span></td></tr>`).join("") +
    `<tr><td><b>Grand Total:</b></td><td><b id="gt"></b></td></tr>`;
 }
-function paintTotals(){
-  const t = totals(), a = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+function paintTotalsS(){
+  const t = totalsS(), a = (id, v) => { const e = $(id); if (e) e.textContent = v; };
   a("#tQ", fmt(t.q,0)); a("#tF", fmt(t.tot,2)); a("#tA", fmt(t.amt,2));
   a("#sU", fmt(t.q,0)); a("#sP", fmt(t.price,0)); a("#gstAmt", fmt(t.gst,2)); a("#gt", fmt(t.grand,0));
   a("#words", `( Rupees ${words(t.grand)} Only )`);
 }
-function setWm(){ $(".wm").textContent = S.f.cname || ""; }
+function setWm(){ document.querySelectorAll(".wm").forEach(e => e.textContent = S.f.cname || ""); }
 function paintBrand(){
-  const b = S.brand || {}, d = (id, on) => $(id).style.display = on ? "" : "none";
-  if (b.logo) $("#logoImg").src = b.logo; else $("#logoImg").removeAttribute("src");
-  d("#logoImg", !!b.logo); d("#logoPh", !b.logo); d("#bLogoX", !!b.logo); d("#bBanX", !!b.banner);
+  const b = S.brand || {}, d = (id, on) => { const e = $(id); if (e) e.style.display = on ? "" : "none"; };
+  [["#logoImg","#logoPh"],["#clogoImg","#clogoPh"]].forEach(([im, ph]) => { const e = $(im); if (b.logo) e.src = b.logo; else e.removeAttribute("src"); d(im, !!b.logo); d(ph, !b.logo); });
+  d("#bLogoX", !!b.logo); d("#bBanX", !!(b.banner || b.name));
   $("#banner").style.backgroundImage = b.banner ? `url(${b.banner})` : "";
+  if (b.name) $("#cnameImg").src = b.name; else $("#cnameImg").removeAttribute("src");
+  d("#cnameImg", !!b.name); d("#cnameTxt", !b.name);
   setWm();
 }
 function paint(){
-  document.querySelectorAll("[data-f]").forEach(el => el.textContent = S.f[el.dataset.f] || "");
+  $("#fmtSel").value = S.format; stampCSS();
+  ["smg","classic"].forEach(k => { $("#sheet-" + k).style.display = k === S.format ? "" : "none"; });
+  ["#rows","#sum","#crows","#csum"].forEach(id => $(id).innerHTML = "");   // the inactive layout must not keep duplicate ids
+  document.querySelectorAll("#sheet-" + S.format + " [data-f]").forEach(el => el.textContent = S.f[el.dataset.f] || "");
   paintBrand(); renderRows(); renderSummary(); update();
 }
 
 /* ================= Validation ================= */
-function validate(){
+function validateS(){
   const m = [];
   document.querySelectorAll(".err").forEach(e => e.classList.remove("err"));
   if (!(S.f.cust || "").trim()) m.push("Customer name is required.");
@@ -221,7 +313,7 @@ function validate(){
     if (!(num(it.w) > 0)) bad("w", "width (mm) must be greater than 0.");
     if (!(num(it.h) > 0)) bad("h", "height (mm) must be greater than 0.");
     if (!(num(it.qty) >= 1) || !Number.isInteger(num(it.qty))) bad("qty", "Nos. must be a whole number, 1 or more.");
-    if (!(num(it.rate) > 0)) bad("rate", "enter a rate per Sq.Ft. greater than 0.");
+    if (!(num(it.rate) > 0)) bad("rate", `enter a rate ${it.mode === "qty" ? "per Nos." : "per Sq.Ft."} greater than 0.`);
   });
   if (num(S.gst) < 0) m.push("GST % cannot be negative.");
   $("#msgs").innerHTML = m.map(x => `<div>${esc(x)}</div>`).join("");
@@ -231,32 +323,167 @@ function validate(){
 let timer;
 function save(now){
   clearTimeout(timer);
-  const run = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); $("#st").textContent = "Saved " + new Date().toLocaleTimeString(); }
+  const run = () => { try { localStorage.setItem(KEY, JSON.stringify(ALL)); $("#st").textContent = "Saved " + new Date().toLocaleTimeString(); }
     catch (e) { $("#st").textContent = "Could not save in browser (storage full?). Use Export JSON."; } };
   now ? run() : (timer = setTimeout(run, 400));
 }
 function update(){ paintTotals(); validate(); save(); }
-function loadState(o){
-  if (!o || o.fmt !== 3 || !Array.isArray(o.items) || typeof o.f !== "object") throw new Error("Not a quotation file made with this version of the editor.");
-  S = {fmt: 3, f: {...blank().f, ...o.f}, items: o.items, charges: Array.isArray(o.charges) ? o.charges : [], gst: num(o.gst), brand: {logo: "", banner: "", ...(o.brand || {})}, srcTot: o.srcTot == null ? null : num(o.srcTot)};
-  paint();
+function setDoc(d){ ALL.docs[d.format] = d; ALL.active = d.format; S = d; paint(); }
+function importDoc(o){
+  if (!o || o.fmt !== 3 || !Array.isArray(o.items) || typeof o.f !== "object") throw new Error("Not a quotation file made with this editor.");
+  const fm = o.format === "classic" ? "classic" : "smg", b = blank(fm);
+  setDoc({...b, ...o, format: fm, f: {...b.f, ...o.f}, charges: Array.isArray(o.charges) ? o.charges : [], gst: num(o.gst), brand: {...b.brand, ...(o.brand || {})}});
+}
+
+/* ================= Format 1: classic layout (metres, Sq.Mtr. / Sq.Ft.) ================= */
+const FT = 3.280839895, SQF = 10.763910417;                 // 1 m in ft, 1 sq.m in sq.ft
+const isC = () => S.format === "classic";
+function blankC(){
+  const d = blankS();
+  return {format: "classic", fmt: 3, f: {cname:"", caddr1:"", caddr2:"", ctel:"", qno:"", qdate:d.f.qdate, pname:"", ref:"", paddr:"", pcp:"", pcno:"", note:"", letter:"", terms:"", signco:""},
+    items: [], charges: [], gst: 0, brand: {logo: "", banner: "", name: ""}, srcAmt: null};
+}
+function calcC(it){
+  if (it.orig) return it.orig;                               // untouched imported row keeps the PDF's printed numbers
+  const w = num(it.w), h = num(it.h), q = num(it.qty), aM = w * h * q, aF = aM * SQF;
+  return {wf: w * FT, hf: h * FT, aM, aF, amt: it.unit === "pc" ? q * num(it.rateP) : it.unit === "sqft" ? aF * num(it.rateF) : aM * num(it.rateM)};   // pc = fixed rate per window x Qty
+}
+function totalsC(){
+  let q = 0, aM = 0, aF = 0, amt = 0;
+  S.items.forEach(it => { const c = calcC(it); q += num(it.qty); aM += c.aM; aF += c.aF; amt += c.amt; });
+  if (S.srcAmt != null && S.items.length && S.items.every(it => it.orig)) amt = S.srcAmt;
+  const others = S.charges.reduce((s, c) => s + num(c.amt), 0), gst = num(S.gst) / 100 * (amt + others);   // GST once, on items + other charges
+  return {q, aM, aF, amt, others, gst, grand: Math.round(amt + others + gst)};
+}
+function rowHTMLC(it, i){
+  const inp = (k, cls, off) => `<input class="n ${cls || ""}" type="number" min="0" step="any" data-k="${k}" value="${raw(it[k])}"${off ? " disabled" : ""}>`;
+  return `<tr data-i="${i}">
+  <td><input class="t" data-k="type" value="${esc(it.type)}"><div class="np"><button class="dl" data-act="del">Delete</button></div></td>
+  <td class="cimc">${it.img ? `<img src="${it.img}" alt="">` : `<div class="noimg">No image</div>`}<div class="np"><label class="fl">Upload image<input type="file" accept="image/*" data-act="img" hidden></label></div></td>
+  <td><div contenteditable data-k="loc"></div></td><td><div contenteditable data-k="desc"></div></td>
+  <td class="sz">${inp("w")} X ${inp("h")}<div data-o="ft"></div></td>
+  <td>${inp("qty")}</td><td class="r"><div data-o="aM"></div><div data-o="aF"></div></td>
+  <td>${inp("rateM","rt", it.unit==="pc")}${inp("rateF","rt", it.unit==="pc")}<input class="n rt" type="number" min="0" step="any" data-k="rateP" title="Rate per window (per Qty)" placeholder="Rate / Window" style="${it.unit==="pc"?"":"display:none"}" value="${raw(it.rateP)}">
+   <div class="np"><select data-k="unit" title="Billing unit"><option value="sqm"${it.unit==="sqm"?" selected":""}>Bill: Sq.Mtr.</option><option value="sqft"${it.unit==="sqft"?" selected":""}>Bill: Sq.Ft.</option><option value="pc"${it.unit==="pc"?" selected":""}>Bill: Per Window (Qty)</option></select></div></td>
+  <td class="r" data-o="amt"></td></tr>`;
+}
+function renderRowsC(){
+  $("#crows").innerHTML = S.items.map(rowHTMLC).join("") +
+   `<tr class="tot"><td colspan="5" class="r">Total :</td><td id="ctQ"></td><td class="r"><div id="ctM"></div><div id="ctF"></div></td><td></td><td class="r" id="ctA"></td></tr>`;
+  S.items.forEach((it, i) => { const tr = $(`tr[data-i="${i}"]`); tr.querySelector('[data-k="loc"]').textContent = it.loc || ""; tr.querySelector('[data-k="desc"]').textContent = it.desc || ""; refreshRowC(i); });
+}
+function refreshRowC(i){
+  const tr = $(`tr[data-i="${i}"]`); if (!tr) return;
+  const it = S.items[i], c = calcC(it), set = (o, v) => tr.querySelector(`[data-o="${o}"]`).textContent = v;
+  set("ft", `${fmt(c.wf,3)} X ${fmt(c.hf,3)}`.replace(/,/g, "")); set("aM", fmt(c.aM,3)); set("aF", fmt(c.aF,3)); set("amt", fmt(c.amt,2));
+  const pc = it.unit === "pc", dM = c.aM > 0 ? c.amt / c.aM : 0;   // billed per window: Sq.Mtr./Sq.Ft. rates are shown as derived values
+  [["rateM", dM], ["rateF", dM / SQF]].forEach(([k, d]) => { const el = tr.querySelector(`[data-k="${k}"]`); if (pc) el.value = d ? d.toFixed(2) : ""; else if (el !== document.activeElement && it[k] !== "" && it[k] != null) el.value = (+it[k]).toFixed(2); });
+}
+function renderSummaryC(){
+  $("#csum").innerHTML = `<tr><th colspan="3">Additional Charges</th></tr><tr><th>Charges</th><th colspan="2" style="text-align:right">Amount</th></tr>` +
+   S.charges.map((c, i) => `<tr data-c="${i}"><td><div contenteditable data-k="name" data-ph="Charge name">${esc(c.name)}</div></td><td class="r"><input class="n" type="number" step="any" data-k="amt" value="${raw(c.amt)}"></td><td class="np"><button class="dl" data-act="delc">x</button></td></tr>`).join("") +
+   `<tr><td>GST (<input class="n" type="number" min="0" step="any" id="gstPct" value="${raw(S.gst)}">%)</td><td class="r" colspan="2" id="cgstAmt"></td></tr><tr><td class="r">Grand Total:</td><td class="r" colspan="2" id="cgt"></td></tr>`;
+}
+function paintTotalsC(){
+  const t = totalsC(), a = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+  a("#ctQ", fmt(t.q,0)); a("#ctM", fmt(t.aM,3)); a("#ctF", fmt(t.aF,3)); a("#ctA", fmt(t.amt,2));
+  a("#cgstAmt", fmt(t.gst,2)); a("#cgt", fmt(t.grand,2));
+  a("#cavM", t.aM > 0 ? fmt(t.grand / t.aM, 2) : "0.00"); a("#cavF", t.aF > 0 ? fmt(t.grand / t.aF, 2) : "0.00");
+  a("#cwords", `( Rupees ${words(t.grand)} Only )`);
+}
+function validateC(){
+  const m = [];
+  document.querySelectorAll(".err").forEach(e => e.classList.remove("err"));
+  if (!(S.f.pname || "").trim()) m.push("Party name is required.");
+  if (!(S.f.qno || "").trim()) m.push("Quotation number is required.");
+  S.items.forEach((it, i) => {
+    if (it.orig) return;
+    const tr = $(`tr[data-i="${i}"]`), bad = (k, t) => { m.push(`${it.type}: ${t}`); const e = tr && tr.querySelector(`[data-k="${k}"]`); e && e.classList.add("err"); };
+    if (!(num(it.w) > 0)) bad("w", "width (m) must be greater than 0.");
+    if (!(num(it.h) > 0)) bad("h", "height (m) must be greater than 0.");
+    if (!(num(it.qty) >= 1) || !Number.isInteger(num(it.qty))) bad("qty", "quantity must be a whole number, 1 or more.");
+    const k = it.unit === "pc" ? "rateP" : it.unit === "sqft" ? "rateF" : "rateM";
+    if (!(num(it[k]) > 0)) bad(k, "enter a rate greater than 0 for the billing unit (per window / Sq.Ft. / Sq.Mtr.).");
+  });
+  if (num(S.gst) < 0) m.push("GST % cannot be negative.");
+  $("#msgs").innerHTML = m.map(x => `<div>${esc(x)}</div>`).join("");
+}
+
+/* ---- classic PDF reader ---- */
+const CBC = [.048,.091,.228,.311,.531,.629,.69,.768,.841,.95];   // Type | Image | Location | Description | Size | Qty | Area | Rate | Amount
+async function importClassic(pdf){
+  const items = [], text = [], charges = []; let skipped = 0, totalAmt = null; const brand = {logo: "", banner: "", name: ""};
+  for (let p = 1; p <= pdf.numPages; p++){
+    const page = await pdf.getPage(p), vp = page.getViewport({scale: 1}), W = vp.width, H = vp.height;
+    const its = (await page.getTextContent()).items.filter(t => t.str.trim()).map(t => ({s: clean(t.str), x: t.transform[4], y: t.transform[5]}));
+    groupLines(its).forEach(l => text.push(lineText(l)));
+    const boxes = (await imageBoxes(page)).filter(b => b.x1 - b.x0 > 30 && b.y1 - b.y0 > 8);   // ignores watermark slivers
+    if (p === 1){
+      const top = boxes.filter(b => H - b.y1 < 100), lg = top.find(b => b.x0 < W * .25), nm = top.find(b => b.x0 >= W * .2 && b.x1 - b.x0 > W * .3);
+      if (lg) brand.logo = await boxImg(page, lg, "image/png", 500);
+      if (nm) brand.name = await boxImg(page, nm, "image/png", 1000);
+    }
+    const types = its.filter(t => t.x < CBC[1] * W && /^[A-Za-z]{1,3}\d{1,3}$/.test(t.s)).sort((a, b) => b.y - a.y);
+    const ends = its.filter(t => /^(Balance|Total)/.test(t.s)).map(t => t.y), used = new Set();
+    for (let k = 0; k < types.length; k++){
+      const y0 = types[k].y, below = ends.concat(types[k + 1] ? [types[k + 1].y] : []).filter(y => y < y0 - 5);
+      const edge = below.length ? Math.max(...below) + 5 : y0 - 90, cols = Array.from({length: 9}, () => []);
+      its.filter(t => t.y <= y0 + 3 && t.y > edge).forEach(t => { for (let c = 0; c < 9; c++) if (t.x >= CBC[c] * W && t.x < CBC[c + 1] * W) cols[c].push(t); });
+      const cl = c => groupLines(cols[c]).map(lineText), re = /([\d.]+)\s*X\s*([\d.]+)/i, m1 = (cl(4)[0] || "").match(re), m2 = (cl(4)[1] || "").match(re);
+      if (!m1){ skipped++; continue; }
+      const ar = cl(6), rt = cl(7), w = +m1[1], h = +m1[2]; let best = null;
+      boxes.forEach((b, bi) => { const d = b.y1 - y0; if (!used.has(bi) && b.x0 > CBC[0] * W && b.x1 < CBC[2] * W + 4 && d > -2 && d < 22 && (!best || d < best.d)) best = {d, bi, b}; });
+      if (best) used.add(best.bi);
+      items.push({type: types[k].s, img: best ? await boxImg(page, best.b, "image/jpeg", 700) : "", loc: cl(2).join(" "), desc: cl(3).join("\n"), w, h, qty: parseInt(cl(5)[0]) || 1,
+        rateM: num(rt[0]), rateF: num(rt[1]), unit: "sqm", orig: {wf: m2 ? +m2[1] : w * FT, hf: m2 ? +m2[2] : h * FT, aM: num(ar[0]), aF: num(ar[1]), amt: num(cl(8)[0])}});
+    }
+    const tt = its.find(t => /^Total\s*:?$/.test(t.s) && t.x > W * .5);
+    if (tt){ const a = its.find(t => Math.abs(t.y - tt.y) < 3 && t.x >= CBC[8] * W); if (a) totalAmt = num(a.s.replace(/,/g, "")); }
+    const ch = its.find(t => t.s === "Charges" && t.x > W * .45), gr = its.find(t => /^Grand/.test(t.s));
+    if (ch && gr) groupLines(its.filter(t => t.x > W * .45 && t.y < ch.y - 3 && t.y > gr.y + 3)).forEach(l => {
+      const str = lineText(l), m = str.match(/^(.*?)\s+(-?[\d,]*\.?\d+)$/); if (m && !/^GST/i.test(m[1])) charges.push({name: m[1], amt: num(m[2].replace(/,/g, ""))}); });
+  }
+  if (!items.length) throw new Error("No item rows were found in this PDF.");
+  const all = text.join("\n"), g = (re, d = "") => { const m = all.match(re); return m ? m[1].trim() : d; }, f = {};
+  const qn = g(/Quotation No\.:-[ \t]*(\S+(?:[ \t]+-)?)/), rev = g(/(Rev\.\s*\d+)/); if (qn) f.qno = (qn + " " + rev).trim();
+  f.qdate = g(/Date:-[ \t]*(\d{1,2}-\d{1,2}-\d{4})/, blankC().f.qdate);
+  f.pname = g(/Party Name:-[ \t]*(.*?)(?=[ \t]*Ref\. By|$)/m); f.ref = g(/Ref\. By[ \t]*[–-][ \t]*(.*)/); f.paddr = g(/Address:-[ \t]*(.*)/);
+  f.pcp = g(/Contact Person :-[ \t]*(.*)/); f.pcno = g(/Contact No\.:-[ \t]*(.*)/); f.note = g(/Note:[ \t]*[–-][ \t]*(.*)/);
+  const lines = all.split("\n"), qi = lines.findIndex(l => /^Quotation$/.test(l)), pre = qi > 0 ? lines.slice(0, qi) : [];
+  if (pre.length >= 3){ f.caddr1 = pre[pre.length - 3]; f.caddr2 = pre[pre.length - 2]; f.ctel = pre[pre.length - 1]; if (pre.length >= 4 && !brand.name) f.cname = pre[pre.length - 4]; }
+  const fo = lines.find(l => /^For\s+\S/.test(l)); if (fo) f.signco = fo.replace(/\s+([.,])/g, "$1");
+  const ti = lines.findIndex(l => /^TERMS/i.test(l));
+  if (ti >= 0){ const t = []; lines.slice(ti + 1).forEach(l => { if (/^\d+\)/.test(l) || !t.length) t.push(l); else t[t.length - 1] += (/^[a-z]/.test(l) ? "" : " ") + l; }); f.terms = t.join("\n"); }
+  return {state: {...blankC(), f: {...blankC().f, ...f}, items, charges, gst: num(g(/GST\s*\(\s*([\d.]+)\s*%\s*\)/, "0")), brand, srcAmt: totalAmt}, skipped};
 }
 
 /* ================= Events ================= */
 document.addEventListener("input", e => {
   const t = e.target;
+  if (t.tagName === "SELECT") return;   // dropdowns are handled by the "change" event only
   if (t.dataset.f !== undefined){ S.f[t.dataset.f] = t.innerText.replace(/\n$/, ""); if (t.dataset.f === "cname") setWm(); validate(); save(); return; }
   if (t.id === "gstPct"){ S.gst = t.value === "" ? 0 : num(t.value); update(); return; }
   const cr = t.closest("tr[data-c]");
   if (cr){ const c = S.charges[+cr.dataset.c]; if (t.dataset.k === "amt") c.amt = t.value === "" ? "" : num(t.value); else c.name = t.innerText.replace(/\n$/, ""); update(); return; }
   const tr = t.closest("tr[data-i]"); if (!tr || !t.dataset.k) return;
   const it = S.items[+tr.dataset.i], k = t.dataset.k;
-  if (["w","h","qty","rate"].includes(k)){ it[k] = t.value === "" ? "" : num(t.value); delete it.orig; }
+  if (["w","h","qty","rate","rateM","rateF","rateP"].includes(k)){
+    const v = t.value === "" ? "" : num(t.value); it[k] = v; delete it.orig;
+    if (k === "rateM") it.rateF = v === "" ? "" : v / SQF;      // keep both rates in step (no circular update: only the other field is written)
+    if (k === "rateF") it.rateM = v === "" ? "" : v * SQF;
+  }
   else it[k] = t.isContentEditable ? t.innerText.replace(/\n$/, "") : t.value;
   refreshRow(+tr.dataset.i); update();
 });
 document.addEventListener("change", e => {
   const t = e.target, tr = t.closest("tr[data-i]");
+  if (t.dataset.k === "unit" && tr && isC()){
+    const it = S.items[+tr.dataset.i], c = calcC(it), old = it.unit; it.unit = t.value; delete it.orig;
+    if (t.value === "pc"){ if (it.rateP === "" || it.rateP == null) it.rateP = num(it.qty) > 0 && c.amt > 0 ? +(c.amt / num(it.qty)).toFixed(2) : ""; }   // current price becomes the starting per-window rate
+    else if (old === "pc" && c.aM > 0){ it.rateM = +(c.amt / c.aM).toFixed(2); it.rateF = +(c.amt / c.aF).toFixed(2); }
+    renderRows(); update(); return;
+  }
+  if ((t.dataset.k === "mode" || t.dataset.k === "unit") && tr){ const it = S.items[+tr.dataset.i]; it[t.dataset.k] = t.value; delete it.orig; refreshRow(+tr.dataset.i); update(); return; }
   if (t.dataset.act === "img" && tr){
     const f = t.files[0]; if (!f) return;
     if (!f.type.startsWith("image/")) return alert("Please choose an image file (JPG, PNG, WebP...).");
@@ -267,7 +494,7 @@ document.addEventListener("click", e => {
   const b = e.target.closest("[data-act]"); if (!b) return;
   const tr = b.closest("tr");
   if (b.dataset.act === "del"){ const it = S.items[+tr.dataset.i];
-    if (confirm(`Delete type ${it.type}? This cannot be undone.`)){ S.items.splice(+tr.dataset.i, 1); S.srcTot = null; renderRows(); update(); } }
+    if (confirm(`Delete type ${it.type}? This cannot be undone.`)){ S.items.splice(+tr.dataset.i, 1); S.srcTot = null; S.srcAmt = null; renderRows(); update(); } }
   if (b.dataset.act === "delc"){ S.charges.splice(+tr.dataset.c, 1); renderSummary(); update(); }
 });
 /* Resize uploads so print/save stay light; PNG keeps transparency (logo) */
@@ -284,18 +511,18 @@ function readImg(file, max, type, cb){
 }
 $("#bAdd").onclick = () => {
   const n = S.items.reduce((m, it) => Math.max(m, parseInt(String(it.type).replace(/\D/g, "")) || 0), 0) + 1;
-  S.items.push({type: "W" + n, img: "", loc: "", w: "", h: "", qty: 1, rate: ""});
+  S.items.push(isC() ? {type: "W" + n, img: "", loc: "", desc: "", w: "", h: "", qty: 1, rateM: "", rateF: "", rateP: "", unit: "sqm"} : {type: "W" + n, img: "", loc: "", w: "", h: "", qty: 1, rate: ""});
   renderRows(); update();
   const r = $(`tr[data-i="${S.items.length - 1}"]`); r.scrollIntoView({block: "center"}); r.querySelector('[data-k="loc"]').focus();
 };
 $("#bChg").onclick = () => { S.charges.push({name: "", amt: ""}); renderSummary(); update(); };
 $("#bSave").onclick = () => save(true);
 $("#bPrint").onclick = () => { validate(); if ($("#msgs").children.length && !confirm("There are validation warnings. Print anyway?")) return; stampCSS(); window.print(); };
-$("#bNew").onclick = () => { if (confirm("Start a new quotation? Items and customer details will be cleared; company details, terms and logo are kept (export JSON first to keep this one).")){ S = fresh(); paint(); } };
+$("#bNew").onclick = () => { if (confirm("Start a new quotation? Items and customer details will be cleared; company details, terms and logo are kept (export JSON first to keep this one).")){ setDoc(fresh()); } };
 $("#bAll").onclick = () => {
   if (!confirm("Clear ALL data, including company name, address, logo, terms, items and the saved copy in this browser? This cannot be undone.")) return;
   clearTimeout(timer); try { localStorage.removeItem(KEY); } catch (e) {}
-  S = blank(); paint(); $("#st").textContent = "All data cleared";
+  ALL = {fmt: 4, active: S.format, docs: {smg: blankS(), classic: blankC()}}; S = ALL.docs[ALL.active]; paint(); $("#st").textContent = "All data cleared";
 };
 $("#bExp").onclick = () => {
   const a = document.createElement("a"), q = (S.f.qno || "quotation").replace(/[^\w-]+/g, "_");
@@ -303,7 +530,7 @@ $("#bExp").onclick = () => {
 };
 $("#fImp").onchange = e => {
   const f = e.target.files[0]; if (!f) return; const r = new FileReader();
-  r.onload = () => { try { loadState(JSON.parse(r.result)); } catch (x) { alert("Import failed: " + x.message); } e.target.value = ""; };
+  r.onload = () => { try { importDoc(JSON.parse(r.result)); } catch (x) { alert("Import failed: " + x.message); } e.target.value = ""; };
   r.readAsText(f);
 };
 $("#fLogo").onchange = e => {
@@ -312,14 +539,21 @@ $("#fLogo").onchange = e => {
   readImg(f, 500, "image/png", url => { S.brand.logo = url; paintBrand(); save(); });
 };
 $("#bLogoX").onclick = () => { if (confirm("Remove the logo?")){ S.brand.logo = ""; paintBrand(); save(); } };
-$("#bBanX").onclick = () => { S.brand.banner = ""; paintBrand(); save(); };
+$("#bBanX").onclick = () => { S.brand.banner = ""; S.brand.name = ""; paintBrand(); save(); };
 /* Print date & time at the top of every page (set just before printing, so it is the real print time) */
 function stampCSS(){
+  if (S && S.format === "classic"){ $("#stamp").textContent = ""; return; }   // classic shows the live date/time line on the sheet instead
   const d = new Date(), p = x => String(x).padStart(2, "0"), M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   $("#stamp").textContent = `@page{@top-right{content:"${p(d.getDate())}-${M[d.getMonth()]}-${d.getFullYear()}  ${p(d.getHours())}:${p(d.getMinutes())}";font:10px Arial}}`;
 }
+function tick(){
+  const d = new Date(), p = x => String(x).padStart(2, "0"); let h = d.getHours(); const ap = h >= 12 ? "PM" : "AM"; h = h % 12 || 12;
+  $("#nowD").textContent = `${p(d.getDate())}-${p(d.getMonth() + 1)}-${d.getFullYear()}`;
+  $("#nowT").textContent = `${p(h)}:${p(d.getMinutes())}:${p(d.getSeconds())} ${ap}`;
+}
+tick(); setInterval(tick, 1000);
 stampCSS();
-window.addEventListener("beforeprint", () => { stampCSS(); document.title = (S.f.qno || "Quotation").replace(/[\\/:*?"<>|]/g, "-"); });
+window.addEventListener("beforeprint", () => { tick(); stampCSS(); document.title = (S.f.qno || "Quotation").replace(/[\\/:*?"<>|]/g, "-"); });
 
 /* ================= PDF import (this "SMG-style" format) =================
    Reads a text-based quotation PDF in this layout and loads it into the editor: header fields, rows, drawings,
@@ -381,9 +615,15 @@ async function boxImg(page, b, type, max){
   const g2 = c2.getContext("2d"); if (type === "image/jpeg"){ g2.fillStyle = "#fff"; g2.fillRect(0, 0, c2.width, c2.height); }
   g2.drawImage(c, 0, 0, c2.width, c2.height); return c2.toDataURL(type, .88);
 }
-async function importPdf(file){
+async function importPdf(file){      // detects which of the two formats the PDF is in
   await loadPdfJs();
   const pdf = await pdfjsLib.getDocument({data: new Uint8Array(await file.arrayBuffer())}).promise;
+  const txt = (await (await pdf.getPage(1)).getTextContent()).items.map(t => t.str).join(" ");
+  if (/FINISH TYPE/i.test(txt)) return importSmg(pdf);
+  if (/Party Details/i.test(txt)) return importClassic(pdf);
+  throw new Error("This PDF is not in one of the two supported quotation formats.");
+}
+async function importSmg(pdf){
   const items = [], allLines = []; let skipped = 0; const brand = {logo: "", banner: ""}; let head = null;
   for (let p = 1; p <= pdf.numPages; p++){
     const page = await pdf.getPage(p), vp = page.getViewport({scale: 1}), W = vp.width, H = vp.height;
@@ -434,19 +674,28 @@ async function importPdf(file){
   }
   if (si >= 0) f.signco = R[si].str.replace(/\s+([.,])/g, "$1");
   const tl = R.map(r => r.str.match(/^Total\s+(\d+)\s+([\d.]+)\s+([\d.]+)$/)).find(Boolean), srcTot = tl ? +tl[2] : null;
-  return {state: {fmt: 3, f: {...blank().f, ...f}, items, charges, gst, brand, srcTot}, skipped};
+  return {state: {format: "smg", fmt: 3, f: {...blankS().f, ...f}, items, charges, gst, brand, srcTot}, skipped};
 }
 $("#fPdf").onchange = async e => {
   const file = e.target.files[0]; e.target.value = ""; if (!file) return;
   if (!confirm("Import this PDF? It replaces the quotation you are editing (use Export JSON first to keep it).")) return;
   $("#st").textContent = "Reading PDF...";
   try {
-    const r = await importPdf(file); S = r.state; paint();
+    const r = await importPdf(file); setDoc(r.state);
     alert(`Imported ${S.items.length} item(s).` + (r.skipped ? ` ${r.skipped} row(s) could not be read.` : "") + "\nPlease compare with your PDF before sending.");
   } catch (x) { alert("PDF import failed: " + x.message); }
   $("#st").textContent = "";
 };
 
 /* ================= Start ================= */
-try { const s = localStorage.getItem(KEY); if (s) loadState(JSON.parse(s)); else { S = blank(); paint(); } } catch (e) { S = blank(); paint(); }
+window.addEventListener("pagehide", () => save(true));   // flush the auto-save when the tab closes or reloads
+$("#fmtSel").onchange = e => { ALL.active = e.target.value; S = ALL.docs[ALL.active]; paint(); };
+ALL = {fmt: 4, active: "smg", docs: {smg: blankS(), classic: blankC()}}; S = ALL.docs.smg;
+try {
+  const cur = localStorage.getItem(KEY), old = localStorage.getItem(OLDKEY);
+  if (cur){ const o = JSON.parse(cur);
+    if (o && o.docs){ ALL.docs.smg = {...blankS(), ...o.docs.smg}; ALL.docs.classic = {...blankC(), ...o.docs.classic}; ALL.active = o.active === "classic" ? "classic" : "smg"; } }
+  else if (old) importDoc(JSON.parse(old));          // carry over a quotation saved by the earlier single-format version
+} catch (e) {}
+S = ALL.docs[ALL.active]; paint();
 </script></body></html>
